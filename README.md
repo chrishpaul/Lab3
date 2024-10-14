@@ -16,7 +16,7 @@ Module A
 - [ ] Displays a realtime count of the number of steps a user has taken today (this could be the same label as "number of steps today")
 - [ ] Displays the number of steps until the user reaches a (user settable) daily goal
 - [ ] The step goal should be saved persistently so that it is remembered even when the app restarts
-- [ ] Displays the current activity of the user: {unnown, still, walking, running, cycling, driving}
+- [ ] Displays the current activity of the user: {unknown, still, walking, running, cycling, driving}
 - [ ] Use a highly visual interface for displaying the information
 
 Module B
