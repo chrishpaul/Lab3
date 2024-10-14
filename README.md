@@ -1,3 +1,4 @@
+Overall
 - [ ] Use the A-series motion controls whenever possible.
 - [ ] Use proper coding techniques and naming conventions for objective-C or Swift.
 - [ ] Interface Design - Proper use of interface elements, auto layout, and landscape portrait views. (1pt)
@@ -9,6 +10,7 @@
 - [ ] Module B: Physics used in Game Properly (1pt)
 - [ ] Module B: Collisions - Collisions in the game are implemented properly and cause some kind of reaction. (1pt)
 - [ ] Use the steps of a user as some type of "currency" in the game to incentivize movement during the day (1pt)
+
 Module A
 - [ ] Display the number of steps a user has walked today and display the number of steps a user walked yesterday
 - [ ] Displays a realtime count of the number of steps a user has taken today (this could be the same label as "number of steps today")
@@ -16,6 +18,7 @@ Module A
 - [ ] The step goal should be saved persistently so that it is remembered even when the app restarts
 - [ ] Displays the current activity of the user: {unnown, still, walking, running, cycling, driving}
 - [ ] Use a highly visual interface for displaying the information
+
 Module B
 - [ ] Create a simple game that the user can play whenever they meet their step goal for the previous day
 - [ ] Use {acceleration, gyro, magnetometer, AND/OR fused motion} to control some part of the physics of a SpriteKit (or SceneKit) game.
