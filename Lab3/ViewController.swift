@@ -52,15 +52,6 @@ class ViewController: UIViewController {
         self.motionModel.startPedometerMonitoring()
     }
     
-    /*
-    func setupStepProgressView(center: CGPoint)->StepProgressView {
-        // set view
-        let progressView = StepProgressView(frame: .zero)
-        progressView.center = center
-        view.addSubview(progressView)
-        return progressView
-    }*/
-    
     func showProgressFor(day : String,
                          stepLabel: UILabel,
                          goalButton: UIButton,

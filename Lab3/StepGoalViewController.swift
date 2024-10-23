@@ -7,67 +7,58 @@
 
 import UIKit
 
+// Protocol to be implemented by VC that calls this VC modally.
 protocol StepGoalChangedDelegate {
     func stepGoalChangedTo(goal: Float, yesterday: Float) //Delegate function must update displayed goal
 }
 
 class StepGoalViewController: UIViewController {
     
-    //let motionModel = MotionModel()
+    //MARK: - Variables
+    // These are passed in from calling VC
     var delegate : StepGoalChangedDelegate?
-        //var day : String
     var currentGoal : Float?
     var yesterdayGoal : Float?
 
+    //MARK: - Outlets
     @IBOutlet weak var stepGoalLabel: UILabel!
     @IBOutlet weak var stepGoalStepper: UIStepper!
     @IBOutlet weak var yesterdayGoalLabel: UILabel!
     @IBOutlet weak var yesterdayGoalStepper: UIStepper!
+    
+    //MARK: - View functions
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        //stepGoalStepper.transform = stepGoalStepper.transform.scaledBy(x: 2, y: 1)
-        if let goal = currentGoal,
+        
+        if let goal = self.currentGoal,
            let yesterdayGoal = self.yesterdayGoal{
-            //print(String(format: "Curren Goal: %.0f", goal))
+            // Configure display labels and steppers for goals
             stepGoalLabel.text = String(format: "%.0f", goal)
             stepGoalStepper.value = Double(goal)
             yesterdayGoalLabel.text = String(format: "%.0f", yesterdayGoal)
             yesterdayGoalStepper.value = Double(yesterdayGoal)
         }
-        
-
-        // Do any additional setup after loading the view.
     }
     
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    
+    // Handles changes to stepper value by updating display for today's goals
     @IBAction func stepGoalChanged(_ sender: UIStepper) {
         self.stepGoalLabel.text = String(format: "%.0f", sender.value)
     }
     
+    // Handles changes to stepper value by updating display for yesterday's goals
     @IBAction func yesterdayGoalChanged(_ sender: UIStepper) {
         self.yesterdayGoalLabel.text = String(format: "%.0f", sender.value)
     }
     
+    // Handles cancel action and returns to calling vc without making changes
     @IBAction func cancelChange(_ sender: UIButton) {
         dismiss(animated: true)
     }
     
+    // Calls handling function to update changes to step goals
     @IBAction func setGoal(_ sender: Any) {
-        //self.motionModel.goal = Float(stepGoalStepper.value)
         delegate?.stepGoalChangedTo(goal: Float(stepGoalStepper.value), yesterday: Float(yesterdayGoalStepper.value));
-        //delegate?.stepGoalChanged(to: Float(stepGoalStepper.value));
         dismiss(animated: true)
     }
 }
