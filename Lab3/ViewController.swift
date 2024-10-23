@@ -20,10 +20,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var stepsRemainingLabel: UILabel!
     @IBOutlet weak var goalAchievedButton: UIButton!
     @IBOutlet weak var todayProgressView: StepProgressView!
+    @IBOutlet weak var yesterdayProgressView: StepProgressView!
     // MARK: Variables
     let motionModel = MotionModel()
     //var todayProgressView: StepProgressView?
-    var yesterdayProgressView: StepProgressView?
+    //var yesterdayProgressView: StepProgressView?
     
     // MARK: View display functions
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ class ViewController: UIViewController {
         let center = CGPoint(x: x, y: y)
         
         //Set up step counting display for yesterday
-        yesterdayProgressView = setupStepProgressView(center: center)
+        //yesterdayProgressView = setupStepProgressView(center: center)
         showProgressFor(day: "yesterday",
                         stepLabel: self.stepsYesterdayLabel,
                         goalButton: self.yesterdayGoalButton,
