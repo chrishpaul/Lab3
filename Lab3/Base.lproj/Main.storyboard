@@ -284,10 +284,15 @@
                             <mask key="constraints">
                                 <exclude reference="whr-dS-O7z"/>
                                 <exclude reference="cPr-EF-Lvb"/>
-                                <exclude reference="9Sz-Ew-hyM"/>
                                 <exclude reference="uFc-WY-Puv"/>
+                                <exclude reference="9Sz-Ew-hyM"/>
                                 <exclude reference="kXG-O5-Wbl"/>
                                 <exclude reference="3Zr-YB-mDW"/>
+                                <exclude reference="5OE-3E-Itq"/>
+                                <exclude reference="03c-kY-hXn"/>
+                                <exclude reference="cbC-jM-TLY"/>
+                                <exclude reference="PcZ-RY-y3T"/>
+                                <exclude reference="MtT-q7-wC5"/>
                                 <exclude reference="mGQ-Ow-vNK"/>
                                 <exclude reference="dkO-cc-oM1"/>
                                 <exclude reference="uEh-kT-lb5"/>
@@ -296,11 +301,6 @@
                                 <exclude reference="HgS-PW-n8Y"/>
                                 <exclude reference="UZe-H4-xNw"/>
                                 <exclude reference="3c6-9c-Kwl"/>
-                                <exclude reference="5OE-3E-Itq"/>
-                                <exclude reference="03c-kY-hXn"/>
-                                <exclude reference="cbC-jM-TLY"/>
-                                <exclude reference="PcZ-RY-y3T"/>
-                                <exclude reference="MtT-q7-wC5"/>
                                 <exclude reference="ho6-RX-V4d"/>
                             </mask>
                         </variation>
@@ -308,10 +308,15 @@
                             <mask key="constraints">
                                 <include reference="whr-dS-O7z"/>
                                 <include reference="cPr-EF-Lvb"/>
-                                <include reference="9Sz-Ew-hyM"/>
                                 <include reference="uFc-WY-Puv"/>
+                                <include reference="9Sz-Ew-hyM"/>
                                 <include reference="kXG-O5-Wbl"/>
                                 <include reference="3Zr-YB-mDW"/>
+                                <include reference="5OE-3E-Itq"/>
+                                <include reference="03c-kY-hXn"/>
+                                <include reference="cbC-jM-TLY"/>
+                                <include reference="PcZ-RY-y3T"/>
+                                <include reference="MtT-q7-wC5"/>
                                 <include reference="mGQ-Ow-vNK"/>
                                 <include reference="dkO-cc-oM1"/>
                                 <include reference="uEh-kT-lb5"/>
@@ -320,11 +325,6 @@
                                 <include reference="HgS-PW-n8Y"/>
                                 <include reference="UZe-H4-xNw"/>
                                 <include reference="3c6-9c-Kwl"/>
-                                <include reference="5OE-3E-Itq"/>
-                                <include reference="03c-kY-hXn"/>
-                                <include reference="cbC-jM-TLY"/>
-                                <include reference="PcZ-RY-y3T"/>
-                                <include reference="MtT-q7-wC5"/>
                                 <include reference="ho6-RX-V4d"/>
                             </mask>
                         </variation>
@@ -378,7 +378,9 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="AmS-UC-cW6"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Set Goals"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Set Goals">
+                                    <color key="baseBackgroundColor" systemColor="systemMintColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="setGoal:" destination="zKE-Jz-1Im" eventType="touchUpInside" id="y1s-sd-hvl"/>
                                 </connections>
@@ -386,13 +388,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today's Step Goal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-z8-ga9">
                                 <rect key="frame" x="127.66666666666669" y="150" width="138" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" systemColor="systemMintColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday's Step Goal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkm-7c-rQe">
                                 <rect key="frame" x="113" y="362" width="167" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" systemColor="systemMintColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minimumValue="100" maximumValue="30000" stepValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="eTB-3d-fRH">
@@ -404,7 +406,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z2u-Rt-3nW">
                                 <rect key="frame" x="50" y="667" width="77" height="35"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Cancel"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Cancel">
+                                    <color key="baseForegroundColor" systemColor="systemMintColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="cancelChange:" destination="zKE-Jz-1Im" eventType="touchUpInside" id="I8t-NW-hy4"/>
                                 </connections>
