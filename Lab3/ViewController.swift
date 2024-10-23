@@ -16,15 +16,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityImage: UIImageView!
     @IBOutlet weak var stepsYesterdayLabel: UILabel!
     @IBOutlet weak var yesterdayGoalButton: UIButton!
-    
     @IBOutlet weak var stepsRemainingLabel: UILabel!
     @IBOutlet weak var goalAchievedButton: UIButton!
     @IBOutlet weak var todayProgressView: StepProgressView!
     @IBOutlet weak var yesterdayProgressView: StepProgressView!
+    
     // MARK: Variables
     let motionModel = MotionModel()
-    //var todayProgressView: StepProgressView?
-    //var yesterdayProgressView: StepProgressView?
     
     // MARK: View display functions
     override func viewDidLoad() {
@@ -32,26 +30,19 @@ class ViewController: UIViewController {
         
         self.motionModel.delegate = self
         
+        //Hide button to start game
         self.goalAchievedButton.isHidden = true
         
         //Set up activity monitoring and display
         self.activityImage.loadGif(name: "unknown")
         self.motionModel.startActivityMonitoring()
         
-        //Set up step counting display for today
-        //todayProgressView = setupStepProgressView(center: view.center)
+        //Set up step counting display for today and yesterday
         showProgressFor(day: "today",
                         stepLabel: self.stepCountLabel,
                         goalButton: self.stepGoalButton,
                         progressView: todayProgressView!)
         
-        //Set center of yesterday progress view below today's view
-        let x = self.view.center.x
-        let y = self.view.center.y + 225.0
-        let center = CGPoint(x: x, y: y)
-        
-        //Set up step counting display for yesterday
-        //yesterdayProgressView = setupStepProgressView(center: center)
         showProgressFor(day: "yesterday",
                         stepLabel: self.stepsYesterdayLabel,
                         goalButton: self.yesterdayGoalButton,
@@ -59,16 +50,16 @@ class ViewController: UIViewController {
         
         //Start pedometer
         self.motionModel.startPedometerMonitoring()
-        
     }
     
+    /*
     func setupStepProgressView(center: CGPoint)->StepProgressView {
         // set view
         let progressView = StepProgressView(frame: .zero)
         progressView.center = center
         view.addSubview(progressView)
         return progressView
-    }
+    }*/
     
     func showProgressFor(day : String,
                          stepLabel: UILabel,
@@ -89,7 +80,7 @@ class ViewController: UIViewController {
             let endProgress = steps / goal
             progressView.progressAnimation(from: startProgress, to: endProgress)
             
-            
+            //Update steps remaining for today
             if day == "today" {
                 let stepsRemaining = goal - steps
                 self.stepsRemainingLabel.text = String(format: "Steps Remaining: %.0f", stepsRemaining)
@@ -99,41 +90,52 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : StepGoalChangedDelegate{
+    
+    // Function called when step goals are updated from StepGoalViewController
     func stepGoalChangedTo(goal: Float, yesterday: Float) {
-        //self.motionModel.updateStepGoal(goal: goal)
+        //Update step goals
         self.motionModel.updateStepGoalFor(day: "today", goal: goal)
         self.motionModel.updateStepGoalFor(day: "yesterday", goal: yesterday)
-        //print(String(format: "Step goal changed to %.0f", goal))
         DispatchQueue.main.async {
+            
+            //Recalculate progress and update display for today
             self.stepGoalButton.setTitle(String(format: "%.0f", goal), for: .normal)
             let steps = self.motionModel.getStepCountFor(day: "today")
             var endProgress = steps / goal
             self.todayProgressView!.progressAnimation(from: 0, to: endProgress)
             
+            //Recalculate progress and update display for yesterday
             self.yesterdayGoalButton.setTitle(String(format: "%.0f", yesterday), for: .normal)
             let stepsYesterday = self.motionModel.getStepCountFor(day: "yesterday")
             endProgress = stepsYesterday / yesterday
             self.yesterdayProgressView?.progressAnimation(from: 0, to: endProgress)
             
+            //Show or hide play game button depending on whether yesterday's goal was met
             if stepsYesterday / yesterday > 1.0 {
                 self.goalAchievedButton.isHidden = false
             } else {
                 self.goalAchievedButton.isHidden = true
             }
             
+            //Update steps remaining button
             let stepsRemaining = goal - steps
             self.stepsRemainingLabel.text = String(format: "Steps Remaining: %.0f", stepsRemaining)
         }
     }
 }
 
+// MARK: =====Motion Delegate Methods=====
+
 extension ViewController: MotionDelegate{
+    //Function Handler for when steps for yesterday are available
     func yesterdayUpdated() {
-        showProgressFor(day: "yesterday", 
+        //Update progress display for yesterday
+        showProgressFor(day: "yesterday",
                         stepLabel: self.stepsYesterdayLabel,
                         goalButton: self.yesterdayGoalButton,
                         progressView: self.yesterdayProgressView!)
         
+        //Calculate if yesterday's goal was met and show play game button accordingly
         let steps = motionModel.getStepCountFor(day: "yesterday")
         let goal = motionModel.getStepGoalFor(day: "yesterday")
         if steps / goal > 1.0 {
@@ -143,13 +145,10 @@ extension ViewController: MotionDelegate{
         }
     }
     
-    // MARK: =====Motion Delegate Methods=====
-    
     func activityUpdated(activity:CMMotionActivity){
+        //Handler for activity updates
         
-        //self.activityLabel.text = "🚶: \(activity.walking), 🏃: \(activity.running)"
-        print(activity.description)
-        
+        // Display gifs depending on activity returned by motion manager
         if(activity.walking){
             self.activityImage.loadGif(name: "walking")
         } else if(activity.running){
@@ -164,44 +163,48 @@ extension ViewController: MotionDelegate{
     }
     
     func pedometerUpdated(pedData:CMPedometerData){
-
-        // display the output directly on the phone
+        //Handler for pedometer updates for today
+        
         DispatchQueue.main.async {
-            // this goes into the large gray area on view
-            self.stepCountLabel.text = pedData.numberOfSteps.stringValue
+            // Get steps from pedometer update and goal from stored value
+            let steps = pedData.numberOfSteps.floatValue
             let goal = self.motionModel.getStepGoal()
             
-            let steps = pedData.numberOfSteps.floatValue
+            // Calculate steps remaining and update label
             let stepsRemaining = goal - steps
-            
             self.stepsRemainingLabel.text = String(format: "Steps Remaining: %.0f", stepsRemaining)
             
-            let endProgress = steps / goal
+            //Update step count display
+            self.stepCountLabel.text = String(format: "%.0f", steps)
+            //self.stepCountLabel.text = pedData.numberOfSteps.stringValue
             
+            //Calculate and display updated progress
+            //  Number of steps since last update is used for incremental update
             let lastStepCount = self.motionModel.getStepCountFor(day: "today")
-            //let startProgress = self.motionModel.lastCount / goal
             let startProgress = lastStepCount / goal
+            let endProgress = steps / goal
             self.todayProgressView!.progressAnimation(from: startProgress, to: endProgress)
+            
+            //Update motionModel with number of steps today as of this update
             self.motionModel.setLastStepCountTo(steps: steps)
-            //self.motionModel.lastCount = pedData.numberOfSteps.floatValue
-            print(pedData.numberOfSteps.intValue)
         }
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? StepGoalViewController{
+            
+            //Properties needed for step goal adjustment
             vc.delegate = self
-            //vc.day = "today"
-            //let goal = self.motionModel.getStepGoal()
             vc.currentGoal = self.motionModel.getStepGoal()
             vc.yesterdayGoal = self.motionModel.getStepGoalFor(day: "yesterday")
         } else if let vc = segue.destination as? StartGameViewController{
+            
+            //Calculation of extra steps to be used as currency in game
             let steps = self.motionModel.getStepCountFor(day: "yesterday")
             let goal = self.motionModel.getStepGoalFor(day: "yesterday")
             vc.extraSteps = steps - goal
         }
-        
     }
 }
 

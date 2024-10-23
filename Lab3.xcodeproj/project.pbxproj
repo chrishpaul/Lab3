@@ -118,11 +118,11 @@
 		84E1B0F62CBDBD850093D7EA /* Lab3 */ = {
 			isa = PBXGroup;
 			children = (
-				84E1B1572CC83D6F0093D7EA /* StartGameViewController.swift */,
 				84E1B0F72CBDBD850093D7EA /* AppDelegate.swift */,
 				84E1B0F92CBDBD850093D7EA /* SceneDelegate.swift */,
 				84E1B0FB2CBDBD850093D7EA /* ViewController.swift */,
 				84E1B1112CC2DEBF0093D7EA /* StepGoalViewController.swift */,
+				84E1B1572CC83D6F0093D7EA /* StartGameViewController.swift */,
 				84E1B1212CC7071C0093D7EA /* GameViewController.swift */,
 				84E1B10F2CBDFFD90093D7EA /* StepProgressView.swift */,
 				84E1B10B2CBDBE040093D7EA /* MotionModel.swift */,
