@@ -144,6 +144,8 @@ extension ViewController: MotionDelegate{
             self.activityImage.loadGif(name: "walking")
         } else if(activity.running){
             self.activityImage.loadGif(name: "running")
+        } else if (activity.cycling){
+            self.activityImage.loadGif(name: "cycling")
         } else if(activity.automotive){
             self.activityImage.loadGif(name: "driving")
         } else if(activity.stationary){
