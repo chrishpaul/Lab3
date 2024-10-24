@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84C02E792CC9EF7300FCD2EF /* TeamMembers.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84C02E782CC9EF7300FCD2EF /* TeamMembers.txt */; };
 		84E1B0F82CBDBD850093D7EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1B0F72CBDBD850093D7EA /* AppDelegate.swift */; };
 		84E1B0FA2CBDBD850093D7EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1B0F92CBDBD850093D7EA /* SceneDelegate.swift */; };
 		84E1B0FC2CBDBD850093D7EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1B0FB2CBDBD850093D7EA /* ViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84C02E782CC9EF7300FCD2EF /* TeamMembers.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TeamMembers.txt; sourceTree = "<group>"; };
 		84E1B0F42CBDBD850093D7EA /* Lab3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lab3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E1B0F72CBDBD850093D7EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84E1B0F92CBDBD850093D7EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 		84E1B0F62CBDBD850093D7EA /* Lab3 */ = {
 			isa = PBXGroup;
 			children = (
+				84C02E782CC9EF7300FCD2EF /* TeamMembers.txt */,
 				84E1B0F72CBDBD850093D7EA /* AppDelegate.swift */,
 				84E1B0F92CBDBD850093D7EA /* SceneDelegate.swift */,
 				84E1B0FB2CBDBD850093D7EA /* ViewController.swift */,
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84E1B13A2CC76D630093D7EA /* hotdog.png in Resources */,
+				84C02E792CC9EF7300FCD2EF /* TeamMembers.txt in Resources */,
 				84E1B11F2CC43B8C0093D7EA /* cycling.gif in Resources */,
 				84E1B13E2CC76E320093D7EA /* pizza.png in Resources */,
 				84E1B1442CC770BD0093D7EA /* strawberries.png in Resources */,
