@@ -9,12 +9,13 @@
 import Foundation
 import CoreMotion
 
+//MARK: - Protocol
 // setup a protocol for the ViewController to be delegate for
 protocol MotionDelegate {
     // Define delegate functions
     func activityUpdated(activity:CMMotionActivity)
     func pedometerUpdated(pedData:CMPedometerData)
-    func yesterdayUpdated()
+    func yesterdayUpdated()     //Handler for when steps for yesterday are available
 }
 
 class MotionModel{
@@ -24,9 +25,8 @@ class MotionModel{
     private let pedometer = CMPedometer()
     
     //User settable step goal persisited in UserDefaults
-    //private var goal:Float = 1000.0
-    private var lastStepCount:Float = 0.0
-    private var yesterdayStepCount:Float?
+    private var lastStepCount:Float = 0.0       //Holds the data from the last pedometer update
+    private var yesterdayStepCount:Float?       //Holds the number of steps from yesterday
     
     var delegate:MotionDelegate? = nil
     
@@ -36,112 +36,111 @@ class MotionModel{
     func setYesterdayStepCountTo(steps : Float){
         self.yesterdayStepCount = steps
     }
+    
+    // MARK: - Getters
     func getStepCountFor(day : String) -> Float{
+        // Gets the number of steps taken today or yesterday
+        
         if day == "today" {
+            // Return the number of steps as of the last pedometer update
             return self.lastStepCount
+            
         } else if day == "yesterday" {
-            if let steps = self.yesterdayStepCount{
+            if let steps = self.yesterdayStepCount{     //using lazy instantiation
                 return steps
             } else {
+                // Create date object for yesterday
                 let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
+                // Get corresponding system start of day
                 let startOfDay = Calendar.current.startOfDay(for: yesterday!)
+                // End of yesterday is start of today
                 let endOfDay = Calendar.current.startOfDay(for: Date())
+                
+                //Query pedometer for steps for yesterday
                 pedometer.queryPedometerData(from: startOfDay, to: endOfDay){
                     (pedData:CMPedometerData?, error:Error?)->Void in
                         
-                        // if no errors, update the delegate
+                    // if no errors, update the delegate
                     if let unwrappedPedData = pedData,
                        let delegate = self.delegate {
+                        // Set private variable for yesterday's steps
                         self.yesterdayStepCount = unwrappedPedData.numberOfSteps.floatValue
                         delegate.yesterdayUpdated()
                     }
                 }
-                return self.yesterdayStepCount ?? 0.0
+                return self.yesterdayStepCount ?? 0.0       //default value if errors
                 
             }
         } else {
-            return 0.0
+            return 0.0      //default value if day not today or yesterday
         }
-    }
-    
-    func updateStepGoal(goal : Float){
-        //self.goal = goal
-        let defaults = UserDefaults.standard
-        defaults.set(goal, forKey: "todayStepGoal")
-    }
-    
-    func updateStepGoalFor(day: String, goal : Float){
-        let defaults = UserDefaults.standard
-        let key = day + "StepGoal"
-        defaults.set(goal, forKey: key)
     }
     
     func getStepGoal() -> Float{
-        let defaults = UserDefaults.standard
-        if let stepGoal = defaults.object(forKey: "todayStepGoal") as? Float{
-            return stepGoal
-        }else{
-            updateStepGoal(goal: 5000)
-            return 5000
-        }
+        // Returns today's step goal stored in UserDefaults.standard
+        
+        getStepGoalFor(day: "today")
     }
     
     func getStepGoalFor(day: String) -> Float{
+        // Returns current step goal stored in UserDefaults.standard
+        // for day "today" or "yesterday"
+        
+        //Create key based on day passed in
         let key = day + "StepGoal"
+        
         let defaults = UserDefaults.standard
+        
+        // If  key exists, return it.
         if let stepGoal = defaults.object(forKey: key) as? Float{
             return stepGoal
-        }else{
+            
+        }else{ //Else update UserDefaults with key and default value
             updateStepGoalFor(day: day, goal: 5000)
-            return 5000
+            return 5000                     //Default goal
         }
     }
     
-    /*
-    func getYesterdayStepGoal() -> Float{
+    //MARK: - Setters
+    
+    func updateStepGoal(goal : Float){
+        //Updates today's step goal
+        updateStepGoalFor(day: "today", goal : goal)
+    }
+    
+    func updateStepGoalFor(day: String, goal : Float){
+        //Updates current step goals for "today" or "yesterday"
         let defaults = UserDefaults.standard
-        if let yesterdayStepGoal = defaults.object(forKey: "YesterdayStepGoal") as? Float{
-            return yesterdayStepGoal
-        }else{
-            //updateYesterdayStepGoal(goal: 5000)
-            return 5000
-        }
-    }*/
-
+        
+        //Create key using day
+        let key = day + "StepGoal"
+        defaults.set(goal, forKey: key)
+    }
     
     // MARK: =====Motion Methods=====
     func startActivityMonitoring(){
         // is activity is available
         if CMMotionActivityManager.isActivityAvailable(){
-            // update from this queue (should we use the MAIN queue here??.... )
+            // start activity updates
             self.activityManager.startActivityUpdates(to: OperationQueue.main)
             {(activity:CMMotionActivity?)->Void in
                 // unwrap the activity and send to delegate
-                // using the real time pedometer might influences how often we get activity updates...
-                // so these updates can come through less often than we may want
                 if let unwrappedActivity = activity,
                    let delegate = self.delegate {
-                    // Print if we are walking or running
-                    print("%@",unwrappedActivity.description)
-                    
                     // Call delegate function
                     delegate.activityUpdated(activity: unwrappedActivity)
-                    
                 }
             }
         }
-        
     }
     
     func startPedometerMonitoring(){
-        print(Date())
+        // This is the computed start of day and matches the date used by my health app
         let startOfDay = Calendar.current.startOfDay(for: Date())
-        //var today = Date()
-        print(startOfDay)
+
         // check if pedometer is okay to use
         if CMPedometer.isStepCountingAvailable(){
-            // start updating the pedometer from the current date and time
-            //pedometer.startUpdates(from: Date())
+            // start updating the pedometer from the today's "start of day"
             pedometer.startUpdates(from: startOfDay)
             {(pedData:CMPedometerData?, error:Error?)->Void in
                 
@@ -151,13 +150,8 @@ class MotionModel{
                     
                     delegate.pedometerUpdated(pedData:unwrappedPedData)
                 }
-
             }
         }
     }
-    
-
-    
-    
 }
 

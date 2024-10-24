@@ -9,14 +9,13 @@
 import UIKit
 
 class StepProgressView: UIView {
+//Class that implements custom progress bar
     
-    private var circleLayer = CAShapeLayer()
-    private var progressLayer = CAShapeLayer()
-    //private var startPoint = CGFloat(Double.pi / 4)
-    //private var endPoint = CGFloat(9 * Double.pi / 4)
-    private var startPoint = CGFloat(-5*Double.pi/4)
-    //private var endPoint = CGFloat(3 * Double.pi / 2)
-    private var endPoint = CGFloat(Double.pi / 4)
+    //MARK: - Variables
+    private var circleLayer = CAShapeLayer()            //Base curved bar
+    private var progressLayer = CAShapeLayer()          //Progress curved bar
+    private var startPoint = CGFloat(-5*Double.pi/4)    //Angle of start of curve
+    private var endPoint = CGFloat(Double.pi / 4)       //Angle of end of curve
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,63 +27,46 @@ class StepProgressView: UIView {
         createCircularPath()
     }
     
-
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
     func createCircularPath() {
-        // created circularPath for circleLayer and progressLayer
-        //let circularPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0), radius: 80, startAngle: startPoint, endAngle: endPoint, clockwise: true)
+        // Creates circularPath for circleLayer and progressLayer
         let circularPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width, y: frame.size.height), radius: 100, startAngle: startPoint, endAngle: endPoint, clockwise: true)
+        
         // circleLayer path defined to circularPath
         circleLayer.path = circularPath.cgPath
-        // ui edits
+        
+        // Configure appearance of base bar
         circleLayer.fillColor = UIColor.clear.cgColor
         circleLayer.lineCap = .round
         circleLayer.lineWidth = 15.0
         circleLayer.strokeEnd = 1.0
         circleLayer.strokeColor = UIColor.systemGray3.cgColor
-        // added circleLayer to layer
+        
+        // Add circleLayer to layer
         layer.addSublayer(circleLayer)
-        // progressLayer path defined to circularPath
+        
+        // progressLayer path defined to circularPath of same shape as base path
         progressLayer.path = circularPath.cgPath
-        // ui edits
+        
+        // Configure appearance of progress bar
         progressLayer.fillColor = UIColor.clear.cgColor
         progressLayer.lineCap = .round
         progressLayer.lineWidth = 15.0
         progressLayer.strokeEnd = 0
         progressLayer.strokeColor = UIColor.systemMint.cgColor
-        // added progressLayer to layer
+        
+        // Add progressLayer to layer
         layer.addSublayer(progressLayer)
     }
     
-    func progressAnimation(duration: TimeInterval) {
-        // created circularProgressAnimation with keyPath
-        let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        // set the end time
-        circularProgressAnimation.duration = 2
-        circularProgressAnimation.fromValue = 0.0
-        circularProgressAnimation.toValue = 1.0
-        circularProgressAnimation.fillMode = .forwards
-        circularProgressAnimation.isRemovedOnCompletion = false
-        progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
-    }
-    
     func progressAnimation(from: Float, to: Float) {
-        // created circularProgressAnimation with keyPath
+        // Animates progess bar
+        
+        // Uses "strokeEnd" keyPath for animation
         let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        // set the end time
-        //circularProgressAnimation.duration = duration
         circularProgressAnimation.fromValue = from
         circularProgressAnimation.toValue = to
         circularProgressAnimation.fillMode = .forwards
         circularProgressAnimation.isRemovedOnCompletion = false
         progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
     }
-
 }
